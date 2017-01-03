@@ -1,4 +1,4 @@
-
+//incomplete, come back and finish later.
 public class MinimalTree {
 	
 	private class BSTNode{

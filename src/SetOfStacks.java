@@ -1,4 +1,4 @@
-
+//Incomplete due to generic arrays and lists. Switch to different method for soln.
 import java.util.*;
 
 public class SetOfStacks<T> extends Stack3_3 {
