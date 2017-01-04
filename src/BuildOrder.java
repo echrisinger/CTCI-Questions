@@ -43,10 +43,11 @@ public class BuildOrder {
 		}
 	}
 	
-	public char[] buildOrderMethod(){
+	public char[] buildOrderMethod() throws Exception{
 		ArrayList<Character> order = new ArrayList<Character>();
 		while(!projects.isEmpty()){
 			Iterator<Character> projIter = projects.iterator();
+			int preSize = projects.size();
 			while(projIter.hasNext()){
 				char currProj = projIter.next();
 				if(elements.get(currProj).deps.isEmpty()){
@@ -60,6 +61,11 @@ public class BuildOrder {
 					projIter.remove();
 				}
 			}
+			int postSize = projects.size();
+			if(preSize == postSize){
+				//no elements removed thus there are no non-dependent ones
+				throw new Exception();
+			}
 		}
 		
 		char[] finalOrder = new char[order.size()];
@@ -69,7 +75,7 @@ public class BuildOrder {
 		return finalOrder;
 	}
 	
-	public static void main(String[] args){
+	public static void main(String[] args) throws Exception{
 		char[] projects = {'a', 'b', 'c', 'd', 'e', 'f'};
 		dependency[] dependencies = {new dependency('a', 'd'), new dependency('f', 'b'), new dependency ('b', 'd'), new dependency ('f', 'a'),
 				new dependency ('d', 'c')};
