@@ -1,12 +1,14 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 
 public class BuildOrder {
 	
 	private class TreeNode{
 		protected char proj;
 		//list of other treenodes this class depends on
-		public ArrayList<TreeNode> deps = new ArrayList<TreeNode>();
+		public HashMap<Character, TreeNode> deps = new HashMap<Character, TreeNode>();
 		//list of treenodes that depend on this class
 		public ArrayList<TreeNode> helps = new ArrayList<TreeNode>();
 		
@@ -14,43 +16,48 @@ public class BuildOrder {
 			this.proj = proj;
 		}
 	}
-	ArrayList<Character> projects;
-	dependency[] dependencies;
-	
+	HashSet<Character> projects = new HashSet<Character>();
 	HashMap<Character, TreeNode> elements = new HashMap<Character, TreeNode>();
 	
 	public BuildOrder(char[] projects, dependency[] dependencies){
-		this.projects = new ArrayList<Character> ();
 		for(char a : projects){
 			this.projects.add(a);
-		}
-		
-		this.dependencies = dependencies;
+		}		
 		//creates an unconnected treenode in the arraylist of treenodes, elements
 		for(char a : projects){
 			elements.put(a, new TreeNode(a));
 		}
-		for(dependency b : this.dependencies){
+		
+		for(dependency b : dependencies){
 			//adds the treenodes that b's TreeNode depends on to it's dep ArrayList.
-			elements.get(b.proj).deps.add(elements.get(b.dependsOn));
+			char curProj = b.proj;
+			char curDep = b.dependsOn;
+			
+			TreeNode n = elements.get(curProj);
+			TreeNode nDepsOn = elements.get(curDep);
+			
+			//creates bidirectional edge in "deps" (depends on) and "helps"
+			n.deps.put(curDep, nDepsOn);
+			nDepsOn.helps.add(n);
+			
 		}
 	}
 	
 	public char[] buildOrderMethod(){
 		ArrayList<Character> order = new ArrayList<Character>();
 		while(!projects.isEmpty()){
-			for(int i = 0; i < projects.size(); i++){
-			//for(char a : projects){
-				char currProj = projects.get(i);
-				System.out.println(currProj);
+			Iterator<Character> projIter = projects.iterator();
+			while(projIter.hasNext()){
+				char currProj = projIter.next();
 				if(elements.get(currProj).deps.isEmpty()){
+					System.out.println(currProj);
 					order.add(currProj);
 					TreeNode n = elements.remove(currProj);
 					for(TreeNode x : n.helps){
-						x.deps.remove(n);
+						x.deps.remove(n.proj);
 					}
 					//change for loop to refer by index to remove efficiently, so no search + removal
-					projects.remove(currProj);
+					projIter.remove();
 				}
 			}
 		}
