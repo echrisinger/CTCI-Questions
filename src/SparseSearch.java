@@ -1,6 +1,9 @@
 
 public class SparseSearch {
 	//makes the assumption that the first element is a real string, otherwise problem is impossible
+	//needs to be changed to find fist instance of a string, and last instance to work for all examples (O(n)
+	
+	//correct - consider skipping rest of sorting problems, they're pretty simple
 	public static void main(String[] args){
 		String[] strings = {"at", "", "", "", "ball", "", "", "car", "", "", "dad", "", ""};
 		System.out.println(findInSparse("ball", strings));

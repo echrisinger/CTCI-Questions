@@ -4,4 +4,5 @@ public class SortedSearchNoSize {
 	//use this to binary search the array; both are O(log(n)), so final soln will be O(log(n)).
 	
 	//didn't implement as I don't want to bother creating listy structure, and it's pretty easy
+	
 }
