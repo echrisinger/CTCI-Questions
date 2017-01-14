@@ -5,6 +5,13 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Set;
 
+//O(n) solution, as it iterates through, and finds all the instances of certain integer values, and creates the max->min peak valley list.
+//One pass solution
+
+//Other solution is to track an element as either a peak or a valley, and swap with the ones next to it according to whether they would fit as a peak or a valley
+//then swapping whether this should be a peak or a valley accordingly as you move to the next element with the integer. This would also be O(n) as at most you
+//access O(n+2) things.
+
 public class PeaksAndValleys {
 	public static void main(String[] args){
 		int[] a = {5,3,1,2,3,4,7,0,9,8,2};
